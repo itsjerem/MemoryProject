@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Button;
 
 public class MemoryProject {
 
@@ -65,53 +66,53 @@ public class MemoryProject {
 		frmTarkov.getContentPane().add(paneBody, BorderLayout.CENTER);
 		paneBody.setLayout(new GridLayout(4, 4, 0, 0));
 		
-		JPanel panel_1 = new JPanel();
-		paneBody.add(panel_1);
+		Button button = new Button("New button");
+		paneBody.add(button);
 		
-		JPanel panel_2 = new JPanel();
-		paneBody.add(panel_2);
+		Button button_1 = new Button("New button");
+		paneBody.add(button_1);
 		
-		JPanel panel_3 = new JPanel();
-		paneBody.add(panel_3);
+		Button button_2 = new Button("New button");
+		paneBody.add(button_2);
 		
-		JPanel panel_4 = new JPanel();
-		paneBody.add(panel_4);
+		Button button_3 = new Button("New button");
+		paneBody.add(button_3);
 		
-		JPanel panel_5 = new JPanel();
-		paneBody.add(panel_5);
+		Button button_4 = new Button("New button");
+		paneBody.add(button_4);
 		
-		JPanel panel_6 = new JPanel();
-		paneBody.add(panel_6);
+		Button button_5 = new Button("New button");
+		paneBody.add(button_5);
 		
-		JPanel panel_7 = new JPanel();
-		paneBody.add(panel_7);
+		Button button_6 = new Button("New button");
+		paneBody.add(button_6);
 		
-		JPanel panel_8 = new JPanel();
-		paneBody.add(panel_8);
+		Button button_7 = new Button("New button");
+		paneBody.add(button_7);
 		
-		JPanel panel_9 = new JPanel();
-		paneBody.add(panel_9);
+		Button button_8 = new Button("New button");
+		paneBody.add(button_8);
 		
-		JPanel panel_10 = new JPanel();
-		paneBody.add(panel_10);
+		Button button_9 = new Button("New button");
+		paneBody.add(button_9);
 		
-		JPanel panel_11 = new JPanel();
-		paneBody.add(panel_11);
+		Button button_10 = new Button("New button");
+		paneBody.add(button_10);
 		
-		JPanel panel_12 = new JPanel();
-		paneBody.add(panel_12);
+		Button button_11 = new Button("New button");
+		paneBody.add(button_11);
 		
-		JPanel panel_13 = new JPanel();
-		paneBody.add(panel_13);
+		Button button_12 = new Button("New button");
+		paneBody.add(button_12);
 		
-		JPanel panel_14 = new JPanel();
-		paneBody.add(panel_14);
+		Button button_13 = new Button("New button");
+		paneBody.add(button_13);
 		
-		JPanel panel_15 = new JPanel();
-		paneBody.add(panel_15);
+		Button button_14 = new Button("New button");
+		paneBody.add(button_14);
 		
-		JPanel panel_16 = new JPanel();
-		paneBody.add(panel_16);
+		Button button_15 = new Button("New button");
+		paneBody.add(button_15);
 		
 		JPanel paneFooter = new JPanel();
 		frmTarkov.getContentPane().add(paneFooter, BorderLayout.SOUTH);
