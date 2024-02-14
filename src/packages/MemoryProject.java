@@ -10,6 +10,26 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Button;
+import java.util.HashMap;
+import javax.swing.ImageIcon;
+
+// Créer une HashMap pour stocker les images associées à chaque bouton
+HashMap<String, ImageIcon> images = new HashMap<String, ImageIcon>();
+
+// Initialiser la HashMap avec deux exemplaires de chaque image
+for (int i = 0; i < 8; i++) {
+    // Remplacer "image" + i par le chemin de votre image ou l'objet ImageIcon
+    ImageIcon image = new ImageIcon("image" + i);
+    images.put(String.valueOf(i), image);
+    images.put(String.valueOf(i + 8), image);
+}
+
+// Associer chaque bouton à une image
+for (int i = 0; i < 16; i++) {
+    JButton button = new JButton(String.valueOf(i));
+    button.setIcon(images.get(String.valueOf(i)));
+    button.setVisible(false); // Les images sont cachées au début
+}
 
 public class MemoryProject {
 
