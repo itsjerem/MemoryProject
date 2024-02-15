@@ -13,6 +13,9 @@ import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Window {
 
@@ -144,9 +147,21 @@ public class Window {
 		frame.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		headerPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel timeLbl = new JLabel("Temps :");
-		timeLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		headerPanel.add(timeLbl);
+		// Créer un JLabel pour afficher le temps
+		JLabel timerLbl = new JLabel("Temps : 0");
+		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		headerPanel.add(timerLbl);
+		// Créer un Timer qui se déclenche toutes les secondes
+		Timer timer = new Timer(1000, new ActionListener() {
+			int timeElapsed = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				timeElapsed++;
+				timerLbl.setText("Temps : " + timeElapsed);
+			}
+		});
+		timer.start();
 
 		frame.getContentPane().add(mainPanel);
 		
