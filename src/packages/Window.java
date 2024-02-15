@@ -23,6 +23,9 @@ public class Window {
 	public ImageButton selectedButton = null;
 	public boolean gameDisabled = false;
 
+	public Integer score = 0;
+	public Integer tries = 3;
+
 	/**
 	 * Launch the application.
 	 */
@@ -55,6 +58,9 @@ public class Window {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			JLabel triesLbl = new JLabel("Essais restants : " + tries);
+
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(
@@ -106,9 +112,12 @@ public class Window {
 							System.out.println("Match " + selectedButton.name + " " + button.name);
 							toggleButton(selectedButton, true);
 							selectedButton = null;
+							score+= 11369;
 						} else {
 							System.out.println("No match " + selectedButton.name + " " + button.name);
 							System.err.println(selectedButton.name.equals(button.name));
+
+							
 
 							// Reset the buttons after 1 second
 							gameDisabled = true;
@@ -120,6 +129,12 @@ public class Window {
 										toggleButton(button, false);
 										selectedButton = null;
 										gameDisabled = false;
+
+										tries--;
+										triesLbl.setText("Essais restants : " + tries);
+										if (tries == 0) 
+											System.out.println("Game over");
+										
 									} catch (InterruptedException e) {
 										e.printStackTrace();
 									}
@@ -154,8 +169,6 @@ public class Window {
 		frame.getContentPane().add(footerPanel, BorderLayout.SOUTH);
 		footerPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel triesLbl = new JLabel("Essais restants :");
-		triesLbl.setToolTipText("Essais restants :");
 		triesLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		footerPanel.add(triesLbl);
 	}
