@@ -9,6 +9,10 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class Window {
 
@@ -135,8 +139,25 @@ public class Window {
 			buttons.add(button);
 			mainPanel.add(button);
 		}
+		
+		JPanel headerPanel = new JPanel();
+		frame.getContentPane().add(headerPanel, BorderLayout.NORTH);
+		headerPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel timeLbl = new JLabel("Temps :");
+		timeLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		headerPanel.add(timeLbl);
 
 		frame.getContentPane().add(mainPanel);
+		
+		JPanel footerPanel = new JPanel();
+		frame.getContentPane().add(footerPanel, BorderLayout.SOUTH);
+		footerPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel triesLbl = new JLabel("Essais restants :");
+		triesLbl.setToolTipText("Essais restants :");
+		triesLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		footerPanel.add(triesLbl);
 	}
 	
 	public void toggleButton(ImageButton button, boolean displayed) {
