@@ -17,6 +17,7 @@ public class Window {
 	public final List<ImageButton> buttons = new ArrayList<ImageButton>();
 
 	public ImageButton selectedButton = null;
+	public boolean gameDisabled = false;
 
 	/**
 	 * Launch the application.
@@ -26,6 +27,8 @@ public class Window {
 			public void run() {
 				try {
 					Window window = new Window();
+					window.frame.setResizable(false);
+					window.frame.setSize(400, 400);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,15 +56,30 @@ public class Window {
 		mainPanel.setLayout(new GridLayout(
 				4, 4, 0, 0));
 
+		ArrayList<Integer> emplacements = new ArrayList<Integer>();
+		for (int j = 0; j < 16; j++)
+			emplacements.add(j);
+				emplacements.sort((a, b) -> 1 - 2 * (int) Math.random());
+
 		for (int i = 0; i < 16; i++) {
-			ImageIcon icon = new ImageIcon(new ImageIcon("src/img/1.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
-			ImageButton button = new ImageButton(i, "img", icon);
+			int randomIndex = (int) (Math.random() * emplacements.size());
+			int emplacement = emplacements.get(randomIndex);
+			emplacements.remove(randomIndex);
+
+			String name = "img" + (emplacement / 2 + 1);
+
+			ImageIcon icon = new ImageIcon(new ImageIcon("src/img/"+ (emplacement / 2 + 1) + ".png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+			ImageButton button = new ImageButton(emplacement, name, icon);
+				
+
 			button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
+					if (gameDisabled) return;
+
 					if (selectedButton == null) {
 						selectedButton = button;
 						toggleButton(button, true);
-						System.out.println("Selected button: " + button.emplacement);
+						System.out.println("Selected button: " + button.emplacement + " " + button.name);
 					} else {
 
 						// If the same button is clicked, do nothing
@@ -77,17 +95,19 @@ public class Window {
 						}
 
 						toggleButton(button, true);
-						System.out.println("Clicked button: " + button.emplacement);
+						System.out.println("Clicked button: " + button.emplacement + " " + button.name);
 
 						// If the buttons match, do something
-						if (selectedButton.name == button.name) {
-							System.out.println("Match" + selectedButton.name + " " + button.name);
+						if (selectedButton.name.equals(button.name)) {
+							System.out.println("Match " + selectedButton.name + " " + button.name);
 							toggleButton(selectedButton, true);
 							selectedButton = null;
 						} else {
-							System.out.println("No match");
+							System.out.println("No match " + selectedButton.name + " " + button.name);
+							System.err.println(selectedButton.name.equals(button.name));
 
 							// Reset the buttons after 1 second
+							gameDisabled = true;
 							Thread t = new Thread(new Runnable() {
 								public void run() {
 									try {
@@ -95,6 +115,7 @@ public class Window {
 										toggleButton(selectedButton, false);
 										toggleButton(button, false);
 										selectedButton = null;
+										gameDisabled = false;
 									} catch (InterruptedException e) {
 										e.printStackTrace();
 									}
@@ -107,6 +128,10 @@ public class Window {
 
 				}
 			});
+
+			// Change the button's size
+			button.setSize(100, 100);
+
 			buttons.add(button);
 			mainPanel.add(button);
 		}

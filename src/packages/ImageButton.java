@@ -21,7 +21,6 @@ public class ImageButton extends JButton {
 	}
 	
 	public void toggle() {
-		System.out.println("toggle");
 		displayed = displayed ? true : false;
 		if(displayed == true) 
 				this.setIcon(image);
