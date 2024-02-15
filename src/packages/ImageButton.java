@@ -2,13 +2,13 @@ package packages;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.Image;
 
 
 public class ImageButton extends JButton {
 	public final String name;
 	public final ImageIcon image;
-	public ImageIcon defaultImage = new ImageIcon("src/img/3.png");
-	
+	public ImageIcon defaultImage = new ImageIcon(new ImageIcon("src/img/0.jpeg").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));	
 	public final int emplacement;
 	
 	public boolean displayed;

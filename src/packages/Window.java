@@ -54,13 +54,8 @@ public class Window {
 				4, 4, 0, 0));
 
 		for (int i = 0; i < 16; i++) {
-			ImageIcon icon = new ImageIcon("src/img/1.png");
-			Image img = icon.getImage();
-			Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-			ImageIcon newIcon = new ImageIcon(newimg);
-
-			ImageButton button = new ImageButton(i, "test" + i, newIcon);
-			// Add on click listener
+			ImageIcon icon = new ImageIcon(new ImageIcon("src/img/1.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+			ImageButton button = new ImageButton(i, "img", icon);
 			button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (selectedButton == null) {
