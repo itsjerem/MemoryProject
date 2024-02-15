@@ -3,6 +3,7 @@ package packages;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Image;
+import java.awt.Dimension;
 
 
 public class ImageButton extends JButton {
@@ -18,6 +19,8 @@ public class ImageButton extends JButton {
 			this.name = name;
 			this.image = image;
 			this.setIcon(defaultImage);
+
+			this.setPreferredSize(new Dimension(1000, 1000));
 	}
 	
 	public void toggle() {
