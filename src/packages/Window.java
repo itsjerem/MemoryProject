@@ -16,6 +16,8 @@ public class Window {
 
 	public final List<ImageButton> buttons = new ArrayList<ImageButton>();
 
+	public ImageButton selectedButton = null;
+
 	/**
 	 * Launch the application.
 	 */
@@ -54,20 +56,24 @@ public class Window {
 		for (int i = 0; i < 16; i++) {
 			ImageButton button = new ImageButton(i, null,
 					new ImageIcon("/Users/jerem/Workflow/poubelle/MemoryProject/src/img/1.png"));
+			// Add on click listener
+			button.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					if(selectedButton == null) {
+						selectedButton = button;
+						button.toggle();
+					}
+					
+				}
+			});
 			buttons.add(button);
 			mainPanel.add(button);
 		}
 		
 		frame.getContentPane().add(mainPanel);
-
-		// 		for (Entry<Integer, Card> entry : game.slots.entrySet()) {
-	    // 	CardButton cardButton = new CardButton(entry.getKey(), entry.getValue());
-	    // 	cardButton.addActionListener(onCardClick(entry.getKey(),entry.getValue()));
-	    // 	buttons.add(cardButton);
-	    // 	mainPanel.add(cardButton);
-		// }
-		// frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 	}
 	
+
+
 
 }
