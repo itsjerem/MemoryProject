@@ -7,7 +7,7 @@ import javax.swing.JButton;
 public class ImageButton extends JButton {
 	public final String name;
 	public final ImageIcon image;
-	public ImageIcon defaultImage = new ImageIcon("/Users/jerem/Workflow/poubelle/MemoryProject/src/img/3.png");
+	public ImageIcon defaultImage = new ImageIcon("src/img/3.png");
 	
 	public final int emplacement;
 	
