@@ -26,6 +26,8 @@ public class Window {
 	public ImageButton selectedButton = null;
 	public boolean gameDisabled = false;
 
+	public int tries = 8;
+
 	/**
 	 * Launch the application.
 	 */
@@ -62,6 +64,8 @@ public class Window {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(
 				4, 4, 0, 0));
+		JLabel triesLbl = new JLabel("Essais restants : " + tries);
+
 
 		ArrayList<Integer> emplacements = new ArrayList<Integer>();
 		for (int j = 0; j < 16; j++)
@@ -123,6 +127,12 @@ public class Window {
 										toggleButton(button, false);
 										selectedButton = null;
 										gameDisabled = false;
+
+										tries--;
+										triesLbl.setText("Essais restants : " + tries);
+										if (tries == 0) 
+											System.out.println("Game over");
+										
 									} catch (InterruptedException e) {
 										e.printStackTrace();
 									}
@@ -169,8 +179,7 @@ public class Window {
 		frame.getContentPane().add(footerPanel, BorderLayout.SOUTH);
 		footerPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel triesLbl = new JLabel("Essais restants :");
-		triesLbl.setToolTipText("Essais restants :");
+		triesLbl.setToolTipText("Essais restants :" + tries);
 		triesLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		footerPanel.add(triesLbl);
 	}
