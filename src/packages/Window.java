@@ -130,6 +130,8 @@ public class Window {
 										selectedButton = null;
 										gameDisabled = false;
 
+
+										
 										tries--;
 										triesLbl.setText("Essais restants : " + tries);
 										if (tries == 0) 
