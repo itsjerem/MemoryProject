@@ -54,8 +54,13 @@ public class Window {
 				4, 4, 0, 0));
 
 		for (int i = 0; i < 16; i++) {
-			ImageButton button = new ImageButton(i, null,
-					new ImageIcon("/Users/jerem/Workflow/poubelle/MemoryProject/src/img/1.png"));
+			ImageIcon icon = new ImageIcon("/Users/jerem/Workflow/poubelle/MemoryProject/src/img/1.png");
+			Image img = icon.getImage();
+			Image newimg = img.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
+			ImageIcon newIcon = new ImageIcon(newimg);
+
+
+			ImageButton button = new ImageButton(i, null, newIcon);
 			// Add on click listener
 			button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {

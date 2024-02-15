@@ -7,7 +7,7 @@ import javax.swing.JButton;
 public class ImageButton extends JButton {
 	public final String name;
 	public final ImageIcon image;
-	public ImageIcon defaultImage;
+	public ImageIcon defaultImage = new ImageIcon("/Users/jerem/Workflow/poubelle/MemoryProject/src/img/3.png");
 	
 	public final int emplacement;
 	
@@ -17,10 +17,11 @@ public class ImageButton extends JButton {
 			this.emplacement = emplacement;
 			this.name = name;
 			this.image = image;
-			this.setIcon(image);
+			this.setIcon(defaultImage);
 	}
 	
 	public void toggle() {
+		System.out.println("toggle");
 		displayed = displayed ? true : false;
 		if(displayed == true) 
 				this.setIcon(image);
