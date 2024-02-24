@@ -30,13 +30,13 @@ public class Window {
 	private JFrame frame;
 
 	public final List<ImageButton> buttons = new ArrayList<ImageButton>();
+	public final ArrayList<Integer> emplacements = new ArrayList<Integer>();
 
 	public ImageButton selectedButton = null;
 	public boolean gameDisabled = false;
 
 	public int tries = 8;
 	public int timeElapsed = 0;
-
 	public int buttonsFinded = 0;
 
 	/**
@@ -68,8 +68,6 @@ public class Window {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		Save.CreateFile();
-
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,18 +81,88 @@ public class Window {
 			}
 		});
 
+		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(
-				4, 4, 0, 0));
-		JLabel triesLbl = new JLabel("Essais restants : " + tries);
+			4, 4, 0, 0));
+			JLabel triesLbl = new JLabel("Essais restants : " + tries);
+			
+		startGame(timer, timerLbl, triesLbl, mainPanel);
+		
+		
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel headerOptionsPanel = new JPanel();
+		panel.add(headerOptionsPanel);
+		headerOptionsPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JMenuBar menuBar = new JMenuBar();
+		headerOptionsPanel.add(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Options");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Nouvelle partie");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				startGame(timer, timerLbl, triesLbl, mainPanel);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Meilleurs scores");
+		mnNewMenu.add(mntmNewMenuItem_1);
+		
+		JPanel headerPanel = new JPanel();
+		panel.add(headerPanel);
+		headerPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		headerPanel.add(timerLbl);		
+		timer.start();
 
+		frame.getContentPane().add(mainPanel);
+		
+		JPanel footerPanel = new JPanel();
+		frame.getContentPane().add(footerPanel, BorderLayout.SOUTH);
+		footerPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		triesLbl.setToolTipText("Essais restants :" + tries);
+		triesLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		footerPanel.add(triesLbl);
+	}
+	
+	public void toggleButton(ImageButton button, boolean displayed) {
+		button.displayed = displayed;
+		button.toggle();
+	}
 
-		ArrayList<Integer> emplacements = new ArrayList<Integer>();
+	
+
+	private void startGame(Timer timer, JLabel timerLbl, JLabel triesLbl, JPanel mainPanel) {
+		Save.CreateFile();
+		gameDisabled = false;
+		
+		mainPanel.removeAll();
+
+		buttonsFinded = 0;
+		selectedButton = null;
+		
+		tries = 8;
+		triesLbl.setText("Essais restants : " + tries);
+
+		timeElapsed = 0;
+		timerLbl.setText("Temps : 0");
+		timer.start();
+
 		for (int j = 0; j < 16; j++)
 			emplacements.add(j);
-				emplacements.sort((a, b) -> 1 - 2 * (int) Math.random());
-
-		for (int i = 0; i < 16; i++) {
+		
+			for (int i = 0; i < 16; i++) {
 			int randomIndex = (int) (Math.random() * emplacements.size());
 			int emplacement = emplacements.get(randomIndex);
 			emplacements.remove(randomIndex);
@@ -107,7 +175,6 @@ public class Window {
 
 			button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					endGame(true, timer, timeElapsed);
 					if (gameDisabled)
 						return;
 
@@ -159,7 +226,7 @@ public class Window {
 										tries--;
 										triesLbl.setText("Essais restants : " + tries);
 										if (tries == 0) 
-											endGame(false, timer, timeElapsed);
+											endGame(false, timer, timeElapsed, triesLbl);
 
 									} catch (InterruptedException e) {
 										e.printStackTrace();
@@ -173,7 +240,7 @@ public class Window {
 						
 
 						if (buttonsFinded == 8) 
-							endGame(true, timer, timeElapsed);
+							endGame(true, timer, timeElapsed, triesLbl);
 
 
 					}
@@ -187,61 +254,20 @@ public class Window {
 			buttons.add(button);
 			mainPanel.add(button);
 		}
-		
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JPanel headerOptionsPanel = new JPanel();
-		panel.add(headerOptionsPanel);
-		headerOptionsPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JMenuBar menuBar = new JMenuBar();
-		headerOptionsPanel.add(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("Options");
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Nouvelle partie");
-		mnNewMenu.add(mntmNewMenuItem);
-		
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Meilleurs scores");
-		mnNewMenu.add(mntmNewMenuItem_1);
-		
-		JPanel headerPanel = new JPanel();
-		panel.add(headerPanel);
-		headerPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		// Créer un JLabel pour afficher le temps
-		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		headerPanel.add(timerLbl);
-		// Créer un Timer qui se déclenche toutes les secondes
-		
-		timer.start();
 
-		frame.getContentPane().add(mainPanel);
-		
-		JPanel footerPanel = new JPanel();
-		frame.getContentPane().add(footerPanel, BorderLayout.SOUTH);
-		footerPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		triesLbl.setToolTipText("Essais restants :" + tries);
-		triesLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		footerPanel.add(triesLbl);
+		System.out.println("Game started");
 	}
 	
-	public void toggleButton(ImageButton button, boolean displayed) {
-		button.displayed = displayed;
-		button.toggle();
-	}
-
-	public void endGame(boolean isWin, Timer timer, int score) {
+	public void endGame(boolean isWin, Timer timer, int score, JLabel triesLbl) {
 		System.out.println(isWin ? "You win" : "You lose");
 		System.out.println("Score: " + score);
 		gameDisabled = true;
 		timer.stop();
-		if (isWin) Save.saveScore(score);
+		if (isWin) {
+        Save.saveScore(score);
+		} else {
+			triesLbl.setText("Game Over");
+		}
 		
 
 		for (ImageButton button : buttons) {
