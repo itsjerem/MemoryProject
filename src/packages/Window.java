@@ -16,6 +16,12 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JComboBox;
+import java.awt.FlowLayout;
+import javax.swing.JList;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class Window {
 
@@ -174,8 +180,29 @@ public class Window {
 			mainPanel.add(button);
 		}
 		
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel headerOptionsPanel = new JPanel();
+		panel.add(headerOptionsPanel);
+		headerOptionsPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JMenuBar menuBar = new JMenuBar();
+		headerOptionsPanel.add(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Options");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Nouvelle partie");
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Meilleurs scores");
+		mnNewMenu.add(mntmNewMenuItem_1);
+		
 		JPanel headerPanel = new JPanel();
-		frame.getContentPane().add(headerPanel, BorderLayout.NORTH);
+		panel.add(headerPanel);
 		headerPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		// Créer un JLabel pour afficher le temps
