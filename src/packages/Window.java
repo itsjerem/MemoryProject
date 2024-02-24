@@ -23,6 +23,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import packages.Save;
+
 public class Window {
 
 	private JFrame frame;
@@ -33,7 +35,8 @@ public class Window {
 	public boolean gameDisabled = false;
 
 	public int tries = 8;
-	
+	public int timeElapsed = 0;
+
 	public int buttonsFinded = 0;
 
 	/**
@@ -65,14 +68,14 @@ public class Window {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Save.CreateFile();
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel timerLbl = new JLabel("Temps : 0");
 		Timer timer = new Timer(1000, new ActionListener() {
-			int timeElapsed = 0;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				timeElapsed++;
@@ -104,7 +107,12 @@ public class Window {
 
 			button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					if (gameDisabled) return;
+					endGame(true, timer, timeElapsed);
+					if (gameDisabled)
+						return;
+
+					if (button.displayed)
+						return;
 
 					if (selectedButton == null) {
 						selectedButton = button;
@@ -151,7 +159,7 @@ public class Window {
 										tries--;
 										triesLbl.setText("Essais restants : " + tries);
 										if (tries == 0) 
-											endGame(false, timer);
+											endGame(false, timer, timeElapsed);
 
 									} catch (InterruptedException e) {
 										e.printStackTrace();
@@ -165,7 +173,7 @@ public class Window {
 						
 
 						if (buttonsFinded == 8) 
-							endGame(true, timer);
+							endGame(true, timer, timeElapsed);
 
 
 					}
@@ -228,10 +236,13 @@ public class Window {
 		button.toggle();
 	}
 
-	public void endGame(boolean isWin, Timer timer) {
-		gameDisabled = true;
+	public void endGame(boolean isWin, Timer timer, int score) {
 		System.out.println(isWin ? "You win" : "You lose");
+		System.out.println("Score: " + score);
+		gameDisabled = true;
 		timer.stop();
+		if (isWin) Save.saveScore(score);
+		
 
 		for (ImageButton button : buttons) {
 			toggleButton(button, true);
