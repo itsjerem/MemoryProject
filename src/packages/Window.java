@@ -39,6 +39,14 @@ public class Window {
 	public int timeElapsed = 0;
 	public int buttonsFinded = 0;
 
+	// Panels
+	public JPanel mainPanel = new JPanel();
+	public JPanel scorePanel = new JPanel();
+	public JPanel headerPanel = new JPanel();
+	public JPanel panel = new JPanel();
+	public JPanel headerOptionsPanel = new JPanel();
+	public JPanel footerPanel = new JPanel();
+
 	/**
 	 * Launch the application.
 	 */
@@ -82,19 +90,15 @@ public class Window {
 		});
 
 		
-		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(
 			4, 4, 0, 0));
 			JLabel triesLbl = new JLabel("Essais restants : " + tries);
 			
 		startGame(timer, timerLbl, triesLbl, mainPanel);
 		
-		
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
+				frame.getContentPane().add(panel, BorderLayout.NORTH);
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JPanel headerOptionsPanel = new JPanel();
 		panel.add(headerOptionsPanel);
 		headerOptionsPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -113,35 +117,6 @@ public class Window {
 		});
 		mnNewMenu.add(mntmNewMenuItem);
 		
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Meilleurs scores");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// Créer une nouvelle fenêtre
-			JFrame scoresFrame = new JFrame("Meilleurs scores");
-			scoresFrame.setSize(300, 200);
-			scoresFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-			// Créer un JTextArea pour afficher les scores
-			JTextArea scoresArea = new JTextArea();
-			scoresArea.setEditable(false);
-
-			// Récupérer les meilleurs scores et les afficher dans le JTextArea
-			// (Remplacez ceci par le code pour récupérer vos meilleurs scores)
-			String scores = getHighScores();
-			scoresArea.setText(scores);
-
-			// Ajouter le JTextArea à la fenêtre
-			scoresFrame.add(scoresArea);
-
-			// Afficher la fenêtre
-			scoresFrame.setVisible(true);
-		}
-	});
-		mnNewMenu.add(mntmNewMenuItem_1);
-		
-		JPanel headerPanel = new JPanel();
 		panel.add(headerPanel);
 		headerPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
@@ -151,19 +126,62 @@ public class Window {
 
 		frame.getContentPane().add(mainPanel);
 		
-		JPanel footerPanel = new JPanel();
 		frame.getContentPane().add(footerPanel, BorderLayout.SOUTH);
 		footerPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		triesLbl.setToolTipText("Essais restants :" + tries);
 		triesLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		footerPanel.add(triesLbl);
+
+		scorePanel.setLayout(new GridLayout(0, 1, 0, 0));
+
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Meilleurs scores");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Create a new window with the best scores
+				Save.loadScores();
+
+				JFrame scoreFrame = new JFrame();
+				scoreFrame.setBounds(100, 100, 450, 300);
+				scoreFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				scoreFrame.setVisible(true);
+
+				JPanel scorePanel = new JPanel();
+				scoreFrame.getContentPane().add(scorePanel, BorderLayout.CENTER);
+				scorePanel.setLayout(new GridLayout(0, 1, 0, 0));
+
+				JLabel scoreLbl = new JLabel("Meilleurs scores");
+				scoreLbl.setHorizontalAlignment(SwingConstants.CENTER);
+				scorePanel.add(scoreLbl);
+
+				int[] scores = Save.loadScores();
+				if (scores != null) {
+					for (int i = 0; i < scores.length; i++) {
+						String string = scores[i] == 0 ? "Aucun score enregistré" : "Score: " + scores[i]; 
+						JLabel lbl = new JLabel(string);
+						lbl.setHorizontalAlignment(SwingConstants.CENTER);
+						scorePanel.add(lbl);
+					}
+				} else {
+					JLabel lbl = new JLabel("Aucun score enregistré");
+					lbl.setHorizontalAlignment(SwingConstants.CENTER);
+					scorePanel.add(lbl);
+				}
+
+				
+				
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_1);
 	}
 	
 	public void toggleButton(ImageButton button, boolean displayed) {
 		button.displayed = displayed;
 		button.toggle();
 	}
+
+
 
 	
 
@@ -193,9 +211,9 @@ public class Window {
 
 			String name = "img" + (emplacement / 2 + 1);
 
-			ImageIcon icon = new ImageIcon(new ImageIcon("src/img/"+ (emplacement / 2 + 1) + ".png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+			ImageIcon icon = new ImageIcon(new ImageIcon("src/img/" + (emplacement / 2 + 1) + ".png").getImage()
+					.getScaledInstance(100, 100, Image.SCALE_SMOOTH));
 			ImageButton button = new ImageButton(emplacement, name, icon);
-				
 
 			button.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -258,14 +276,11 @@ public class Window {
 								}
 							});
 							t.start();
-							
-							
+
 						}
-						
 
 						if (buttonsFinded == 8) 
 							endGame(true, timer, timeElapsed, triesLbl);
-
 
 					}
 
