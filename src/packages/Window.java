@@ -27,6 +27,8 @@ public class Window {
 	public boolean gameDisabled = false;
 
 	public int tries = 8;
+	
+	public int buttonsFinded = 0;
 
 	/**
 	 * Launch the application.
@@ -60,6 +62,17 @@ public class Window {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JLabel timerLbl = new JLabel("Temps : 0");
+		Timer timer = new Timer(1000, new ActionListener() {
+			int timeElapsed = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				timeElapsed++;
+				timerLbl.setText("Temps : " + timeElapsed);
+			}
+		});
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(
@@ -113,6 +126,7 @@ public class Window {
 							System.out.println("Match " + selectedButton.name + " " + button.name);
 							toggleButton(selectedButton, true);
 							selectedButton = null;
+							buttonsFinded++;
 						} else {
 							System.out.println("No match " + selectedButton.name + " " + button.name);
 							System.err.println(selectedButton.name.equals(button.name));
@@ -131,15 +145,22 @@ public class Window {
 										tries--;
 										triesLbl.setText("Essais restants : " + tries);
 										if (tries == 0) 
-											System.out.println("Game over");
-										
+											endGame(false, timer);
+
 									} catch (InterruptedException e) {
 										e.printStackTrace();
 									}
 								}
 							});
 							t.start();
+							
+							
 						}
+						
+
+						if (buttonsFinded == 8) 
+							endGame(true, timer);
+
 
 					}
 
@@ -158,19 +179,10 @@ public class Window {
 		headerPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		// Créer un JLabel pour afficher le temps
-		JLabel timerLbl = new JLabel("Temps : 0");
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		headerPanel.add(timerLbl);
 		// Créer un Timer qui se déclenche toutes les secondes
-		Timer timer = new Timer(1000, new ActionListener() {
-			int timeElapsed = 0;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				timeElapsed++;
-				timerLbl.setText("Temps : " + timeElapsed);
-			}
-		});
+		
 		timer.start();
 
 		frame.getContentPane().add(mainPanel);
@@ -189,6 +201,15 @@ public class Window {
 		button.toggle();
 	}
 
+	public void endGame(boolean isWin, Timer timer) {
+		gameDisabled = true;
+		System.out.println(isWin ? "You win" : "You lose");
+		timer.stop();
+
+		for (ImageButton button : buttons) {
+			toggleButton(button, true);
+		}
+	}
 	
 
 	
