@@ -115,6 +115,30 @@ public class Window {
 		
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Meilleurs scores");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// Créer une nouvelle fenêtre
+			JFrame scoresFrame = new JFrame("Meilleurs scores");
+			scoresFrame.setSize(300, 200);
+			scoresFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+			// Créer un JTextArea pour afficher les scores
+			JTextArea scoresArea = new JTextArea();
+			scoresArea.setEditable(false);
+
+			// Récupérer les meilleurs scores et les afficher dans le JTextArea
+			// (Remplacez ceci par le code pour récupérer vos meilleurs scores)
+			String scores = getHighScores();
+			scoresArea.setText(scores);
+
+			// Ajouter le JTextArea à la fenêtre
+			scoresFrame.add(scoresArea);
+
+			// Afficher la fenêtre
+			scoresFrame.setVisible(true);
+		}
+	});
 		mnNewMenu.add(mntmNewMenuItem_1);
 		
 		JPanel headerPanel = new JPanel();
